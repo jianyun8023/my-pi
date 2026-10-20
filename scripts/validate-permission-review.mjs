@@ -12,8 +12,10 @@ import { BoundaryApprovalBroker } from "../forks/pi-auto-review-packages/package
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const agent = path.join(os.homedir(), ".pi/agent");
+// 路由前缀每台机器不同；以本机 magpie-jev.json 为准（如 home-m4/typesafe/jev-latest 或 typesafe/jev-latest）。
+const jevRoute = JSON.parse(fs.readFileSync(path.join(agent, "magpie-jev.json"), "utf8")).model;
 const config = validateConfig({ ...JSON.parse(fs.readFileSync(path.join(agent, "extensions/pi-auto-review/config.json"), "utf8")),
-  classifier: { model: "magpie-jev/home-m4/typesafe/jev-latest", timeoutMs: 8000, minConfidence: 0.95 },
+  classifier: { model: `magpie-jev/${jevRoute}`, timeoutMs: 8000, minConfidence: 0.95 },
 }, "live validation");
 const credentials = JSON.parse(fs.readFileSync(path.join(agent, "auth.json"), "utf8"));
 const runtime = await ModelRuntime.create({ credentials: { read: async provider => credentials[provider], list: async () => [],

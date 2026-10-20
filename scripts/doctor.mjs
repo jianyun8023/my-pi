@@ -46,7 +46,10 @@ await check("Web / 权限 fork", () => {
 await check("主模型 / 审核模型", () => {
   const settings = read(path.join(agent, "settings.json"));
   const reviewer = read(path.join(agent, "extensions/pi-auto-review/config.json"));
-  if (reviewer.classifier?.model !== "magpie-jev/home-m4/typesafe/jev-latest") throw Error("Jev permission classification is not enabled");
+  // 每台机器的网关路由前缀不同；以本机 magpie-jev.json 的实际路由为准。
+  const jevRoute = read(path.join(agent, "magpie-jev.json")).model;
+  if (typeof jevRoute !== "string" || !jevRoute.trim()) throw Error("magpie-jev.json has no model route");
+  if (reviewer.classifier?.model !== `magpie-jev/${jevRoute}`) throw Error("Jev permission classification is not enabled");
   return `${settings.defaultProvider}/${settings.defaultModel}; classifier ${reviewer.classifier.model} (threshold ${reviewer.classifier.minConfidence}); reviewer ${reviewer.model} (reasoning ${reviewer.reasoning})`;
 });
 await check("Jev 适配器", () => {
