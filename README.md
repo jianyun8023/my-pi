@@ -61,7 +61,7 @@ Web 使用 mise 的 Node 24.11.1。权限插件的 SDK 依赖放在独立的 `pe
 
 设计参考了 [Claude Code 的自动审批和会话授权边界](https://code.claude.com/docs/en/permission-modes)、[OpenCode 的动作与资源规则](https://github.com/anomalyco/opencode/blob/dev/services/www/src/docs/content/permissions.mdx)，以及 [LangChain 的逐调用人工审核](https://docs.langchain.com/oss/python/langchain/human-in-the-loop)。Jev→Luna 分流是本项目实现。
 
-源码保存在 `forks/` 的 `codex/jev-permission-review` 分支，目前提交仅在本机。本次自动审核 290 项、Web 42 项及类型检查、生产构建通过；权限引擎制品未变，沿用上一轮 6518 项测试结果。自动审核完整测试使用隔离安装的 Bun 1.4.3。
+源码保存在 `forks/` 的 `codex/jev-permission-review` 分支，已推送到各自 fork 远端（`pi-web` `ebcc7c4`、`pi-auto-review-packages` `ef6da0e`、`pi-permission-packages` `a2a0789`；权限引擎分支最新提交为纯重构，制品仍对应 `46f9cce`）。本次自动审核 290 项、Web 42 项及类型检查、生产构建通过；权限引擎制品未变，沿用上一轮 6518 项测试结果。自动审核完整测试使用隔离安装的 Bun 1.4.3。
 
 部署后的真实网页会话已验证文件写入和读取：Jev 审核 975 ms，同一写入的第二层检查复用结果（1 ms、零新增模型调用），未调用 Luna，也未出现人工确认。记录位于 `artifacts/permission-deployment-validation.json`；认证、模型和 MCP 配置哈希均保持不变。
 
