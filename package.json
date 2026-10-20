@@ -1,0 +1,13 @@
+{
+  "name": "my-pi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "本机 Pi 开发环境的 Jev 适配器、部署与检查脚本",
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
